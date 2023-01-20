@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "rimraf dist && tsc",
-    "start": "node dist/src/server.js"
+    "postbuild": "copyfiles -u 1 prisma/* prisma/**/**/* dist/prisma",
+    "migrate:prod": "npx prisma migrate deploy",
+    "start": "npm run migrate:prod && node dist/src/server.js"
   },
   "repository": {
     "type": "git",
@@ -23,11 +25,13 @@
     "@fastify/cors": "^8.2.0",
     "@prisma/client": "^4.8.1",
     "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
     "fastify": "^4.11.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.3.0",
+    "copyfiles": "^2.4.1",
     "prisma": "^4.8.1",
     "prisma-erd-generator": "^1.2.5",
     "rimraf": "^4.1.1",
